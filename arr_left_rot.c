@@ -22,5 +22,6 @@ int main(){
     for (int j=0; j<k; j++)
         printf ("%d ", a[j]);
     
+    free (a);
     return 0;
 }
