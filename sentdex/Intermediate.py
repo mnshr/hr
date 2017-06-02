@@ -58,3 +58,75 @@ if __name__ == '__main__':
     main()
     
 #%%
+# Generator vs List Comprehension
+xyz = (i for i in range(50000000))
+print(list(xyz)[:5])
+
+# list comprehension puts the entire list into memory, so it is faster, 
+# but the penalty is memory use
+xyz = [i for i in range(50000000)]
+print(xyz[:5])
+
+#%%
+ input_list = [5,6,2,1,6,7,10,12]
+ 
+ def div_by_five(num):
+     if num % 5 == 0:
+         return True
+     else:
+         return False
+ 
+ xyz = (i for i in input_list if div_by_five(i))
+# print(list(xyz))
+ 
+# xyz = [i for i in input_list if div_by_five(i)]
+# print(xyz)
+# [print (i) for i in range(5)]
+
+[[print(i,ii) for ii in range(3)] for i in range(5)]
+
+#%%
+#generator
+ input_list = range(100)
+ 
+ def div_by_five(num):
+     if num % 5 == 0:
+         return True
+     else:
+         return False
+  
+ xyz = list(i for i in input_list if div_by_five(i))
+ print xyz
+ 
+ xyz_lc = [i for i in input_list if div_by_five(i)]
+ print xyz_lc
+ 
+import timeit
+print(timeit.timeit('1+3', number=500000))
+
+# ----------------------------------------------------- 100 items
+# 1.21198258894
+ print(timeit.timeit('''
+ input_list = range(100)
+  
+ def div_by_five(num):
+     if num % 5 == 0:
+         return True
+     else:
+         return False
+  
+ xyz = list(i for i in input_list if div_by_five(i))
+     ''', number=50000))
+
+# 1.11570975033
+ print(timeit.timeit('''
+ input_list = range(100)
+
+ def div_by_five(num):
+     if num % 5 == 0:
+         return True
+     else:
+         return False
+
+ xyz = [i for i in input_list if div_by_five(i)]
+ ''', number=50000))
