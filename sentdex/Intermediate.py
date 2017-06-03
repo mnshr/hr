@@ -130,3 +130,20 @@ print(timeit.timeit('1+3', number=500000))
 
  xyz = [i for i in input_list if div_by_five(i)]
  ''', number=50000))
+#%%     
+#Random list experiment
+x=[1,2, 4, 7, 2, 5, 6]
+# y=('a') This is a tuple, can't append to this
+y=[] #This is a list element, we can append
+print x[-1]
+for i in range(len(x)):
+    print i
+    y.append(x[i])
+
+print y[0], y[len(y)-1], y[-1] #the -1 index returns last element
+y.pop()
+print y
+
+z=['abc', '123', 1, 5] #We can have different data type elements in a list
+for i in range(len(z)):
+    print z[i]
