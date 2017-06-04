@@ -251,4 +251,61 @@ ON A.MARKS BETWEEN B.MIN_MARK AND B.MAX_MARK) TBL
 ORDER BY GRADE DESC, NM, MARKS
 
 --https://www.hackerrank.com/challenges/full-score
-ORDER BY HACKER_ID
+SELECT S.HACKER_ID, H.NAME
+FROM SUBMISSIONS S, CHALLENGES C, HACKERS H, DIFFICULTY D
+WHERE S.CHALLENGE_ID=C.CHALLENGE_ID
+AND S.HACKER_ID=H.HACKER_ID
+AND C.DIFFICULTY_LEVEL=D.DIFFICULTY_LEVEL
+AND D.SCORE=S.SCORE
+GROUP BY 1, 2
+HAVING COUNT(S.SCORE)>1
+ORDER BY COUNT(S.SCORE) DESC, S.HACKER_ID
+              
+--https://www.hackerrank.com/challenges/harry-potter-and-wands
+SELECT W.id, WP.age, W.coins_needed, W.power
+FROM WANDS W, WANDS_PROPERTY WP
+WHERE W.CODE = WP.CODE
+AND IS_EVIL=0
+and W.COINS_NEEDED = (SELECT MIN(COINS_NEEDED) from WANDS as W1
+                      JOIN WANDS_PROPERTY AS WP1
+                      on (W1.CODE = WP1.CODE) 
+                      WHERE W.POWER = W1.POWER
+                      and WP1.AGE = WP.AGE)
+ORDER BY POWER DESC, AGE DESC;
+
+--https://www.hackerrank.com/challenges/challenges
+select b.hacker_id, a.name, b.tot_cha 
+from hackers a 
+join (select hacker_id, count(challenge_id) as tot_cha 
+      from challenges 
+      group by hacker_id) b 
+      on a.hacker_id = b.hacker_id 
+      where b.tot_cha not in 
+(select c.tot_cha 
+ from 
+ (select hacker_id, count(challenge_id) as tot_cha 
+  from challenges 
+  group by hacker_id) c 
+ where c.tot_cha != 
+ (select count(challenge_id) as tot_cha 
+  from challenges 
+  group by hacker_id 
+  order by tot_cha desc limit 1) 
+ group by c.tot_cha 
+ having count(c.tot_cha) > 1) 
+order by b.tot_cha desc, b.hacker_id;
+
+--https://www.hackerrank.com/challenges/contest-leaderboard
+SELECT A.HACKER_ID, B.NAME, SUM(SCOR)
+FROM (
+SELECT HACKER_ID, CHALLENGE_ID, MAX(SCORE) AS SCOR
+FROM SUBMISSIONS
+GROUP BY 1, 2
+ORDER BY 1, 2, 3 DESC) AS A
+JOIN HACKERS B
+ON A.HACKER_ID=B.HACKER_ID
+GROUP BY 1, 2
+HAVING SUM(SCOR) > 0
+ORDER BY SUM(SCOR) DESC, HACKER_ID
+;
+
