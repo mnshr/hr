@@ -15,7 +15,7 @@ if __name__ == '__main__':
         if j==0:
             continue
         ar.append(j)
-    print(*ar, sep='')
+    print(*ar, sep='') #using the print_function
 
 #https://www.hackerrank.com/challenges/write-a-function
 def is_leap(year):
@@ -46,8 +46,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     a = int(raw_input())
     b = int(raw_input())
-    print a//b
-    print a/b
+    print a//b          #prints the integer part only
+    print a/b           #prints the float
     
 #https://www.hackerrank.com/challenges/py-if-else
 if __name__ == '__main__':
@@ -70,5 +70,3 @@ if __name__ == '__main__':
     print a+b
     print a-b
     print a*b
-
-    

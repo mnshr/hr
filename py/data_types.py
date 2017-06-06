@@ -4,13 +4,14 @@ Created on Sun Jun 04 19:07:08 2017
 
 @author: mnshr
 """
+
 #https://www.hackerrank.com/challenges/finding-the-percentage
 if __name__ == '__main__':
     n = int(raw_input())
     student_marks = {}
     for _ in range(n):
-        line = raw_input().split()
-        name, scores = line[0], line[1:]
+        line = raw_input().split()  #split the input to get command & params
+        name, scores = line[0], line[1:] # MH
         scores = map(float, scores)
         student_marks[name] = scores
     query_name = raw_input()
