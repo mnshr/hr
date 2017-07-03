@@ -74,3 +74,17 @@ print (merged)
 merged=pd1.merge(df1, df3, on = 'Year', how='outer')
 merged.set_index('Year', inplace=True)
 print (merged)
+
+#%%
+
+#https://pythonprogramming.net/pickle-data-analysis-python-pandas-tutorial/
+
+import pickle
+#serialize and save the byte stream in disk
+pickle_out = open('merged.pkl', 'wb')
+pickle.dump(merged, pickle_out)
+pickle_out.close()
+
+pickle_in = open('merged.pkl', 'rb')
+df4 = pickle.load(pickle_in)
+print(df4)
