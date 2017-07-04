@@ -88,3 +88,70 @@ pickle_out.close()
 pickle_in = open('merged.pkl', 'rb')
 df4 = pickle.load(pickle_in)
 print(df4)
+
+# Pandas' Pickle in 2 lines
+df4.to_pickle('merged2.pkl')
+df5 = pd1.read_pickle('merged2.pkl')
+print(df5)
+
+#%%
+# Statistics
+# https://pythonprogramming.net/percent-change-correlation-data-analysis-python-pandas-tutorial/
+
+import matplotlib.pyplot as plt
+from matplotlib import style
+style.use('fivethirtyeight')
+#style.use('ggplot')
+
+df5.plot()
+plt.legend().remove()
+plt.show()
+
+# Correlation function
+df5.corr()
+df5.describe()
+
+#%%
+# Resampling (change frequency)
+# https://pythonprogramming.net/resample-data-analysis-python-pandas-tutorial/
+
+TX1yr = HPI_data['TX'].resample('A', how='mean') # A is for annual
+TX1yr = HPI_data['TX'].resample('A', how='ohlc') # ohlc is for open, hi, lo, close
+print(TX1yr.head())
+
+#%%
+# Handling missing data (remove, fill, replace)
+df5.dropna(inplace=True) # how default is 'any'
+df5.dropna(inplace=True, how='all') # all cols must have values, else dropped
+
+# Fillna
+df5.fillna(method='ffill', inplace=True)  #Forward fill using prev values
+df5.fillna(method='bfill', inplace=True)  #Forward bak using fwd values
+
+# Filling with a value
+df5.fillna(value=999, inplace=True)
+
+#%%
+# Rolling stats
+# https://pythonprogramming.net/rolling-statistics-data-analysis-python-pandas-tutorial/
+
+# Moving Average = Rolling mean, across a time window - 12 mo
+HPI_data['TX12MA'] = pd.rolling_mean(HPI_data['TX'], 12) # 12 months
+HPI_data['TX12STD'] = pd.rolling_std(HPI_data['TX'], 12) # 12 months
+
+#%%
+# Comparison Operators
+bridge_height = {'meters':[10.26, 10.31, 10.27, 10.22, 10.23, 6212.42, 10.28, 10.25, 10.31]}
+df = pd1.DataFrame(bridge_height)
+
+
+df['STD'] = pd1.rolling_std(df['meters'], 2)
+print(df)
+
+#df.plot()
+
+df_std = df.describe()['meters']['std']
+df = df[ (df['STD'] < df_std) ]
+print(df)
+print (df_std)
+df['meters'].plot()
